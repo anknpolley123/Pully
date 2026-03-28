@@ -1,7 +1,7 @@
 # Pully 🛠️
 **A Powerful Linux Toolkit for Track Locations by Phishing Simulation and Security Awareness Testing**
 
-Developed by: **Ankon Polley** Project Scope: **Cybersecurity Educational Research**
+Developed by: **Ankon Polley**
 
 ---
 
