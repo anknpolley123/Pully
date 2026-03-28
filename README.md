@@ -1,6 +1,6 @@
 # Pully 🛠️
 **A Powerful Linux Toolkit for Track Locations by Phishing Simulation and Security Awareness Testing**
-![Demo GIF](https://s4.ezgif.com/tmp/ezgif-4578204f09525705.mp4-poster.jpg)
+![Demo GIF](https://cdn.jumpshare.com/preview/m5PT4Tp4sw7Skg2641tUXOP8E952wJnAnfag2LF7WvhzkEhaamPkO_-za1nB8WJWsT4TjcOjukWpwGY2jW05Xrt9-_TWV9YIMEE2Pbcza28)
 
 Developed by: **Ankon Polley**
 
